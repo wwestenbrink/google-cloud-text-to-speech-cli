@@ -33,7 +33,8 @@ Usage:
   google-cloud-text-to-speech-cli [OPTIONS]
 
 Application Options:
-  -t, --text=          [required] Text content.
+  -t, --text=          Text content.
+  -f, --textFile=      Text file path.
   -l, --language=      LanguageCode. (default: en)
   -g, --gender=        SsmlGender. (default: FEMALE)
   -v, --voice=         Voice type. [ see --listvoicetype, --gender is ignored. ]

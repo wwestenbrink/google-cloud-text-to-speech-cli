@@ -4,21 +4,23 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/jessevdk/go-flags"
 	"io"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
 
-	"cloud.google.com/go/texttospeech/apiv1"
+	"github.com/jessevdk/go-flags"
+
+	texttospeech "cloud.google.com/go/texttospeech/apiv1"
 	texttospeechpb "google.golang.org/genproto/googleapis/cloud/texttospeech/v1"
 )
 
 const AppName = "google-cloud-text-to-speech-cli"
 
 type options struct {
-	Text           string  `short:"t" long:"text" description:"[required] Text content." default:""`
+	Text           string  `short:"t" long:"text" description:"Text content." default:""`
+	TextFile       string  `short:"f" long:"textFile" description:"Text file path." default:""`
 	LanguageCode   string  `short:"l" long:"language" description:"LanguageCode." default:"en"`
 	Gender         string  `short:"g" long:"gender" description:"SsmlGender." default:"FEMALE"`
 	Voice          string  `short:"v" long:"voice" description:"Voice type. [ see --listvoicetype, --gender is ignored. ]"`
@@ -51,6 +53,7 @@ func main() {
 	// Required parameter
 	// - [Can Go's `flag` package print usage? - Stack Overflow](https://stackoverflow.com/questions/23725924/can-gos-flag-package-print-usage)
 	fmt.Println("text: ", opts.Text)
+	fmt.Println("textFile: ", opts.TextFile)
 	fmt.Println("language: ", opts.LanguageCode)
 	fmt.Println("gender: ", opts.Gender)
 	fmt.Println("speakingRate: ", opts.SpeakingRate)
@@ -64,12 +67,24 @@ func main() {
 		os.Exit(0)
 	}
 
-	if opts.Text == "" {
-		log.Fatal("--text is required.")
+	if opts.Text == "" && opts.TextFile == "" {
+		log.Fatal("--text or --textFile is required.")
 	}
+
 	ssmlGender, ok := texttospeechpb.SsmlVoiceGender_value[opts.Gender]
 	if !ok {
 		log.Fatal("Undefined ssml voice gender.")
+	}
+
+	var text = opts.Text
+	// read content from file if needed
+	if opts.TextFile != "" {
+		content, err := ioutil.ReadFile(opts.TextFile)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		text = string(content)
 	}
 
 	// Instantiates a client.
@@ -85,7 +100,7 @@ func main() {
 	req := texttospeechpb.SynthesizeSpeechRequest{
 		// Set the text input to be synthesized.
 		Input: &texttospeechpb.SynthesisInput{
-			InputSource: &texttospeechpb.SynthesisInput_Text{Text: opts.Text},
+			InputSource: &texttospeechpb.SynthesisInput_Text{Text: text},
 		},
 		// Build the voice request, select the language code ("en-US") and the SSML
 		// voice genderFlag ("neutral").
