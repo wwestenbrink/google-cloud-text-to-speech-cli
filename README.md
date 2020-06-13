@@ -56,9 +56,9 @@ language:  en
 gender:  FEMALE
 speakingRate:  1.5
 pitch:  -5
-output:  out/output.mp3
+output:  out/output.wav
 
-Audio content written to file: out/output.mp3
+Audio content written to file: out/output.wav
 ```
 
 ## Development

@@ -27,7 +27,7 @@ type options struct {
 	SpeakingRate   float64 `short:"s" long:"rate" description:"SpeakingRate. [ 0.25 <= rate <= 4.0 ]" default:"1.0"`
 	Pitch          float64 `short:"p" long:"pitch" description:"Pitch. [ -20.0 <= pitch <= 20.0 ] " default:"0.0"`
 	AudioProfile   string  `short:"a" long:"audioProfile" description:"Audio effect profile to apply" default:""`
-	OutputFilePath string  `short:"o" long:"output" description:"Output file path." default:"out/output.mp3"`
+	OutputFilePath string  `short:"o" long:"output" description:"Output file path." default:"out/output.wav"`
 	ListVoiceType  bool    `long:"listvoicetype" description:"Display voice types."`
 	FilterByLang   bool    `long:"filterbylang" description:"Filter voice types by language."`
 }
@@ -118,7 +118,7 @@ func main() {
 		},
 		// Select the type of audio file you want returned.
 		AudioConfig: &texttospeechpb.AudioConfig{
-			AudioEncoding:    texttospeechpb.AudioEncoding_MP3,
+			AudioEncoding:    texttospeechpb.AudioEncoding_LINEAR16,
 			EffectsProfileId: effectProfiles,
 			SpeakingRate:     opts.SpeakingRate,
 			Pitch:            opts.Pitch,
