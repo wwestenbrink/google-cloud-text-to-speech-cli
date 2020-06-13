@@ -40,6 +40,7 @@ Application Options:
   -v, --voice=         Voice type. [ see --listvoicetype, --gender is ignored. ]
   -s, --rate=          SpeakingRate. [ 0.25 <= rate <= 4.0 ] (default: 1.0)
   -p, --pitch=         Pitch. [ -20.0 <= pitch <= 20.0 ]  (default: 0.0)
+  -a, --audioProfile=  Audio effect profile to use (default: none)
   -o, --output=        Output file path. (default: out/output.mp3)
       --listvoicetype  Display voice types.
       --filterbylang   Filter voice types by language.

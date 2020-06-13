@@ -26,6 +26,7 @@ type options struct {
 	Voice          string  `short:"v" long:"voice" description:"Voice type. [ see --listvoicetype, --gender is ignored. ]"`
 	SpeakingRate   float64 `short:"s" long:"rate" description:"SpeakingRate. [ 0.25 <= rate <= 4.0 ]" default:"1.0"`
 	Pitch          float64 `short:"p" long:"pitch" description:"Pitch. [ -20.0 <= pitch <= 20.0 ] " default:"0.0"`
+	AudioProfile   string  `short:"a" long:"audioProfile" description:"Audio effect profile to apply" default:""`
 	OutputFilePath string  `short:"o" long:"output" description:"Output file path." default:"out/output.mp3"`
 	ListVoiceType  bool    `long:"listvoicetype" description:"Display voice types."`
 	FilterByLang   bool    `long:"filterbylang" description:"Filter voice types by language."`
@@ -58,6 +59,7 @@ func main() {
 	fmt.Println("gender: ", opts.Gender)
 	fmt.Println("speakingRate: ", opts.SpeakingRate)
 	fmt.Println("pitch: ", opts.Pitch)
+	fmt.Println("audioProfile: ", opts.AudioProfile)
 	fmt.Println("output: ", opts.OutputFilePath)
 	fmt.Println()
 
@@ -76,7 +78,7 @@ func main() {
 		log.Fatal("Undefined ssml voice gender.")
 	}
 
-	var text = opts.Text
+	text := opts.Text
 	// read content from file if needed
 	if opts.TextFile != "" {
 		content, err := ioutil.ReadFile(opts.TextFile)
@@ -95,6 +97,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	effectProfiles := []string{}
+	if opts.AudioProfile != "" {
+		effectProfiles = append(effectProfiles, opts.AudioProfile)
+	}
+
 	// Perform the text-to-speech request on the text input with the selected
 	// voice parameters and audio file type.
 	req := texttospeechpb.SynthesizeSpeechRequest{
@@ -111,9 +118,10 @@ func main() {
 		},
 		// Select the type of audio file you want returned.
 		AudioConfig: &texttospeechpb.AudioConfig{
-			AudioEncoding: texttospeechpb.AudioEncoding_MP3,
-			SpeakingRate:  opts.SpeakingRate,
-			Pitch:         opts.Pitch,
+			AudioEncoding:    texttospeechpb.AudioEncoding_MP3,
+			EffectsProfileId: effectProfiles,
+			SpeakingRate:     opts.SpeakingRate,
+			Pitch:            opts.Pitch,
 		},
 	}
 
