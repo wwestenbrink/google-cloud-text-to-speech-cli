@@ -1,9 +1,9 @@
 # google-cloud-text-to-speech-cli
 
-Command line interface for google-cloud-text-to-speech-api.
+Command line interface for using the Google Cloud text-to-speech API to convert text into Linear PCM audio.
 
 > Cloud Text-to-Speech Client Libraries  ｜  Cloud Text-to-Speech API  ｜  Google Cloud  
-> https://cloud.google.com/text-to-speech/docs/reference/libraries?hl=ja
+> https://cloud.google.com/text-to-speech/docs/
 
 # How to use
 
@@ -23,8 +23,8 @@ If you don't have account, you need create it.
 
 Download latest application based on your platform.
 
-> Releases · xshoji/google-cloud-text-to-speech-cli  
-> https://github.com/xshoji/google-cloud-text-to-speech-cli/releases
+> Releases · wwestenbrink/google-cloud-text-to-speech-cli  
+> https://github.com/wwestenbrink/google-cloud-text-to-speech-cli/releases
 
 ```
 // Show help
@@ -71,7 +71,7 @@ Audio content written to file: out/output.wav
 #### Create `Service Account Key`
 
 > Cloud Text-to-Speech Client Libraries  ｜  Cloud Text-to-Speech API  ｜  Google Cloud  
-> https://cloud.google.com/text-to-speech/docs/reference/libraries?hl=ja
+> https://cloud.google.com/text-to-speech/docs/reference/libraries#setting_up_authentication
 
 Then, download credential json.
 
@@ -91,6 +91,11 @@ git tag v0.0.3 && git push --tags && goreleaser --rm-dist
 ```
 
 ## References
+> Basics 
+> https://cloud.google.com/text-to-speech/docs/basics
 
-> サポートされているすべての音声の一覧表示  ｜  Cloud Text-to-Speech Documentation  ｜  Google Cloud  
-> https://cloud.google.com/text-to-speech/docs/list-voices?hl=ja
+> Supported voices and languages 
+> https://cloud.google.com/text-to-speech/docs/voices
+
+> Configure rate, pitch and audio profile
+> https://cloud.google.com/text-to-speech/docs/reference/rest/v1/text/synthesize#audioconfig
